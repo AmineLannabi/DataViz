@@ -1,0 +1,100 @@
+<?php
+/* Registre national de rhéophérèse
+ * 
+ * Affiche la page des statistiques
+ * 
+ */
+?>
+    <!-- Menu Deroulant pour le choix du rapport -->
+    <div class="form-group">
+        <select class="form-control" id="select-rapport">
+            <option value="VUE_STAT_DMLA">Rapport sur DMLA</option>
+            <option value="VUE_STAT_FUMEUR_POURCENTAGE">Repartition Statut tabacologique</option>
+            <option value="VUE_STAT_NEPHROPATHIE_INITIALE">Nephropathie Initiale</option>
+            <option value="VUE_STAT_TRAITEMENT_MRC">Traitement MRC</option>
+            <option value="VUE_STAT_STADE_AOMI">Stade AOMI</option>
+            <option value="VUE_STAT_CARDIOPATHIE">Cardiopathie</option>
+            <option value="VUE_STAT_STADE_MRC">Stade Mrc</option>
+            <option value="VUE_STAT_REVASCULARISATION_MEMBRES_INF">Revascularisation des Membres Inferieur</option>
+        </select>
+
+        <!--  Menu Deroulant pour le type de graphique -->
+        <select class="form-control" id="type-rapport">
+            <option value="bar">Histogramme</option>
+            <option value="line">Ligne</option>
+            <option value="doughnut">Donut</option>
+            <option value="pie">Camembert</option>
+        </select>
+    </div>
+
+ 	<div id="graph-container"></div>
+	<script type="text/javascript" src="js/Chart.min.js"></script>
+
+	<script type="text/javascript">
+
+        // Fonction d'affichage des statistiques
+		function display() {
+			var typeGraph = $("#type-rapport option:selected").val();
+			var rapportSelected = $("#select-rapport option:selected").val();
+			$.ajax({
+				url: 'viz.php?rapport='+rapportSelected,
+				method: 'GET'
+			}).done((response) => {
+				var json = JSON.parse(response);
+				var obj = json[0];
+				createGraph(obj.labels,obj.values,typeGraph);
+			});
+		};
+
+        // Fonction de creation du Graphique via la lib Chart.js
+		var createGraph = function(labels,data,type){
+
+			$("#graph-container").html("");
+			$("#graph-container").html('<canvas id="graph" style="display: block; height: 169px; width: 339px;" width="678" height="338" ></canvas>');
+			var ctx = document.getElementById("graph").getContext('2d');
+			var myChart = new Chart(ctx, {
+				    type: type,
+				    data: {
+				        labels: labels,
+				        datasets: [{
+				            label: '',
+				            data: data,
+				            backgroundColor: [
+				                'rgba(255, 99, 132, 0.2)',
+				                'rgba(54, 162, 235, 0.2)',
+				                'rgba(255, 206, 86, 0.2)',
+				                'rgba(75, 192, 192, 0.2)',
+				                'rgba(153, 102, 255, 0.2)',
+				                'rgba(255, 159, 64, 0.2)'
+				            ],
+				            borderColor: [
+				                'rgba(255,99,132,1)',
+				                'rgba(54, 162, 235, 1)',
+				                'rgba(255, 206, 86, 1)',
+				                'rgba(75, 192, 192, 1)',
+				                'rgba(153, 102, 255, 1)',
+				                'rgba(255, 159, 64, 1)'
+				            ],
+				            borderWidth: 1
+				        }]
+				    },
+				    options: {
+				        scales: {
+				            yAxes: [{
+				                ticks: {
+				                    beginAtZero:true
+				                }
+				            }]
+				        },
+                        legend: {
+                            display: (type == 'doughnut' || type == 'pie')
+                        },
+				    }
+				});
+		};
+
+        // Rechargement automatique au changement de la vue
+        $("#select-rapport").change(display);
+        $("#type-rapport").change(display);
+        $(document).ready(display);
+	</script>
