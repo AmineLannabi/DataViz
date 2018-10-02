@@ -1,3 +1,4 @@
+<<<<<<< HEAD
     <!-- Menu Deroulant pour le choix du rapport -->
     <div class="form-group">
         <select class="form-control" id="select-rapport">
@@ -11,6 +12,18 @@
             <option value="doughnut">Donut</option>
             <option value="pie">Camembert</option>
         </select>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<!-- Menu Deroulant pour le choix du rapport -->
+    <div class="form-group">
+        
+>>>>>>> fe8cacab3ac5cecec64389ea421662da63843aea
     </div>
 
  	<div id="graph-container"></div>
@@ -18,19 +31,7 @@
 
 	<script type="text/javascript">
 
-        // Fonction d'affichage des statistiques
-		function display() {
-			var typeGraph = $("#type-rapport option:selected").val();
-			var rapportSelected = $("#select-rapport option:selected").val();
-			$.ajax({
-				url: 'viz.php?rapport='+rapportSelected,
-				method: 'GET'
-			}).done((response) => {
-				var json = JSON.parse(response);
-				var obj = json[0];
-				createGraph(obj.labels,obj.values,typeGraph);
-			});
-		};
+       
 
         // Fonction de creation du Graphique via la lib Chart.js
 		var createGraph = function(labels,data,type){
@@ -83,4 +84,10 @@
         $("#select-rapport").change(display);
         $("#type-rapport").change(display);
         $(document).ready(display);
+<<<<<<< HEAD
 	</script>
+=======
+	</script>
+</body>
+</html>
+>>>>>>> fe8cacab3ac5cecec64389ea421662da63843aea

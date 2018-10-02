@@ -3,24 +3,31 @@ var fs = require("fs")
 var moment = require("moment")
 
 var values = new Map()
-var crypto = new Map()
-var montantEth = 100
-var montantBtc = 1
-var benef = 0
-var montantBnb = 100
-var montantUsd = 100
 
-setInterval(() => {
-curl.get('https://www.binance.com/api/v1/ticker/allPrices', (err, res, body) => {
-    if(err)
-        console.log(err)
+
+function getAllPrice() {
+	curl.get('https://www.binance.com/api/v1/ticker/allPrices', (err, res, body) => {
+	    if(err)
+	        console.log(err)
         JSON.parse(body).forEach(e => {
             values.set(e.symbol, e.price)
         })
-})
+	})
 
+	return values
+}
 
-}, 10000)
+function getChard(symbol, interval) {
+	curl.get('https://www.binance.com/api/v1/klines?symbol='+symbol+'&interval='+interval, (err, res, body) => {
+	    if(err)
+	        console.log(err)
+	    return body
+	})
+}
 
-
-// test https://www.binance.com/api/v1/klines?symbol=MFTBNB&interval=1M
+ // Fonction d'affichage des statistiques
+function display() {
+	var json = JSON.parse(response);
+	var obj = json[0];
+	createGraph(obj.labels,obj.values,typeGraph);
+};
