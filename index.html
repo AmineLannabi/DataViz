@@ -5,10 +5,8 @@
 	<title>Document</title>
 </head>
 <body>
-	<!-- Menu Deroulant pour le choix du rapport -->
-    <div class="form-group">
-        
-    <!-- Menu Deroulant pour le choix du rapport -->
+
+    <!-- Menu Deroulant pour le type de graphique -->
     <div class="form-group">
         <select class="form-control" id="select-rapport">
             <option value="VUE_STAT_DMLA"> BIFF DANS LE TEMPS </option>
@@ -16,10 +14,12 @@
 
         <!--  Menu Deroulant pour le type de graphique -->
         <select class="form-control" id="type-rapport">
-            <option value="bar">Histogramme</option>
-            <option value="line">Ligne</option>
+			<option value="line">Ligne</option>
+            <!--
+			<option value="bar">Histogramme</option>
             <option value="doughnut">Donut</option>
             <option value="pie">Camembert</option>
+			-->
         </select>
     </div>
 
@@ -81,10 +81,6 @@
         $("#select-rapport").change(display);
         $("#type-rapport").change(display);
         $(document).ready(display);
-<<<<<<< HEAD
-	</script>
-=======
 	</script>
 </body>
 </html>
->>>>>>> fe8cacab3ac5cecec64389ea421662da63843aea
