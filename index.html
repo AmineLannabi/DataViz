@@ -23,14 +23,26 @@
         </select>
     </div>
 
- 	<div id="graph-container"></div>
-	<script type="text/javascript" src="js/Chart.min.js"></script>
+ 	<div id="graph-container">
+ 		<canvas id="graph" width="400" height="400"></canvas>
+ 	</div>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	
+	<script type="text/javascript" src="app.js"></script>
 
 	<script type="text/javascript">
-
-       
-
         // Fonction de creation du Graphique via la lib Chart.js
+
+
+
+
+        $.ajax("localhost:3000/char/gete", (res, req) => {
+        	val c = res.chart
+        })
+
+
+
 		var createGraph = function(labels,data,type){
 
 			$("#graph-container").html("");
@@ -77,10 +89,8 @@
 				});
 		};
 
-        // Rechargement automatique au changement de la vue
-        $("#select-rapport").change(display);
-        $("#type-rapport").change(display);
-        $(document).ready(display);
+		createGraph(null, getAllPrice, 'line')
+
 	</script>
 </body>
 </html>
