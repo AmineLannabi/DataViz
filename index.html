@@ -1,3 +1,7 @@
+<!-- TODO : recupere toutes les cryptos sur la route qui viens d'être crée. Puis les mettres dans le select 
+pour enfin faire des requetes sur les cryptos qu'on veux. Faire un select qui contient apres toutes les fenetres
+temporelle et enfin tous les types de graph qu'on peut afficher -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +12,7 @@
 
     <!-- Menu Deroulant pour le type de graphique -->
     <div class="form-group">
-        <select class="form-control" id="select-rapport">
+        <select class="form-control" id="crypto">
             <option value="VUE_STAT_DMLA"> BIFF DANS LE TEMPS </option>
         </select>
 
@@ -29,17 +33,28 @@
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	
-	<script type="text/javascript" src="app.js"></script>
+	<!-- <script type="text/javascript" src="app.js"></script> -->
 
 	<script type="text/javascript">
         // Fonction de creation du Graphique via la lib Chart.js
+  		$.ajax({
+			url : 'http://localhost:3000/getChart/XRPUSDT/1w',
+			type : 'GET',
+			dataType : 'json',
+			success : function(res, statut){ 
+				var myData = res
+				var label = []
+				var value = []
+
+				$.each(myData, (index, row) => {
+					label.push(row.openTime)
+					value.push(row.closeValue)
+				})
 
 
-
-
-        $.ajax("localhost:3000/char/gete", (res, req) => {
-        	val c = res.chart
-        })
+				createGraph(label, value, 'line')
+			}
+		});
 
 
 
@@ -88,8 +103,6 @@
 				    }
 				});
 		};
-
-		createGraph(null, getAllPrice, 'line')
 
 	</script>
 </body>
