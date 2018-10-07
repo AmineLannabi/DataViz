@@ -7,103 +7,45 @@ temporelle et enfin tous les types de graph qu'on peut afficher -->
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
+	<!-- Permet l'affichage correct des selects -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>
 
     <!-- Menu Deroulant pour le type de graphique -->
     <div class="form-group">
-        <select class="form-control" id="crypto">
-            <option value="VUE_STAT_DMLA"> BIFF DANS LE TEMPS </option>
+        <select class="form-control" id="crypto" onchange="changeCrypto(this.value)">
         </select>
 
         <!--  Menu Deroulant pour le type de graphique -->
-        <select class="form-control" id="type-rapport">
-			<option value="line">Ligne</option>
-            <!--
-			<option value="bar">Histogramme</option>
-            <option value="doughnut">Donut</option>
-            <option value="pie">Camembert</option>
-			-->
+        <select class="form-control" id="tempo" onchange="changeTempo(this.value)">
+			<option value="1m">1 min</option>
+			<option value="3m">3 min</option>
+			<option value="5m">5 min</option>
+			<option value="15m">15 min</option>
+			<option value="30m">30 min</option>
+			<option value="1h">1 h</option>
+			<option value="2h">2 h</option>
+			<option value="4h">4 h</option>
+			<option value="6h">6 h</option>
+			<option value="8h">8 h</option>
+			<option value="12h">12 h</option>
+			<option value="1d" selected>1 day</option>
+			<option value="3d">3 day</option>
+			<option value="1w">1 week</option>
+			<option value="1M">1 month</option>
         </select>
     </div>
 
  	<div id="graph-container">
  		<canvas id="graph" width="400" height="400"></canvas>
  	</div>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+
+ 	<!-- IMPORT SCRIPTS -->
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	
-	<!-- <script type="text/javascript" src="app.js"></script> -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+	<script type="text/javascript" src="app.js"></script>
 
-	<script type="text/javascript">
-        // Fonction de creation du Graphique via la lib Chart.js
-  		$.ajax({
-			url : 'http://localhost:3000/getChart/XRPUSDT/1w',
-			type : 'GET',
-			dataType : 'json',
-			success : function(res, statut){ 
-				var myData = res
-				var label = []
-				var value = []
-
-				$.each(myData, (index, row) => {
-					label.push(row.openTime)
-					value.push(row.closeValue)
-				})
-
-
-				createGraph(label, value, 'line')
-			}
-		});
-
-
-
-		var createGraph = function(labels,data,type){
-
-			$("#graph-container").html("");
-			$("#graph-container").html('<canvas id="graph" style="display: block; height: 169px; width: 339px;" width="678" height="338" ></canvas>');
-			var ctx = document.getElementById("graph").getContext('2d');
-			var myChart = new Chart(ctx, {
-				    type: type,
-				    data: {
-				        labels: labels,
-				        datasets: [{
-				            label: '',
-				            data: data,
-				            backgroundColor: [
-				                'rgba(255, 99, 132, 0.2)',
-				                'rgba(54, 162, 235, 0.2)',
-				                'rgba(255, 206, 86, 0.2)',
-				                'rgba(75, 192, 192, 0.2)',
-				                'rgba(153, 102, 255, 0.2)',
-				                'rgba(255, 159, 64, 0.2)'
-				            ],
-				            borderColor: [
-				                'rgba(255,99,132,1)',
-				                'rgba(54, 162, 235, 1)',
-				                'rgba(255, 206, 86, 1)',
-				                'rgba(75, 192, 192, 1)',
-				                'rgba(153, 102, 255, 1)',
-				                'rgba(255, 159, 64, 1)'
-				            ],
-				            borderWidth: 1
-				        }]
-				    },
-				    options: {
-				        scales: {
-				            yAxes: [{
-				                ticks: {
-				                    beginAtZero:true
-				                }
-				            }]
-				        },
-                        legend: {
-                            display: (type == 'doughnut' || type == 'pie')
-                        },
-				    }
-				});
-		};
-
-	</script>
 </body>
 </html>

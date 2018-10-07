@@ -1,108 +1,105 @@
-var curl = require("curl")
-var fs = require("fs")
-var moment = require("moment")
-var cors = require('cors');
-const express = require('express')
-const app = express()
+$(document).ready(function() {
+	$('#tempo').select2()
 
 
-app.use(cors())
-
-
-app.get('/', function (req, res) {
-  res.send('Hello World!')
-})
-
-app.get('/getChart/:crypto/:time', (req, res) => {
-	var crypto = req.params.crypto
-	var time = req.params.time
-
-	getChart(crypto, time).then(chart => {
-		res.json(chart)
-	})
-})
-
-
-app.get('/getAllCrypto', (req, res) => {
-	getAllCrypto().then(cryptos => {
-		res.json(cryptos)
-	})
-})
-
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!')
-})
-
-
-function getAllCrypto() {
-	return new Promise((resolve, reject) => {
-		getAllPrice().then(crypto => {
-			var allCryp = []
-
-			crypto.forEach(row => {
-				allCryp.push(row.symbol)
+	$.ajax({
+		url : 'http://localhost:3000/getAllCrypto',
+		type : 'GET',
+		dataType : 'json',
+		success : function(res, statut){ 
+			$.each(res, (index, row) => {
+				$('#crypto').append('<option value="'+row+'">'+row+'</option>')
 			})
 
-			resolve(allCryp)
-		})
+			getChart()
+
+			$('#crypto').select2()
+		}
 	})
+})
+
+this.tempo = '1d'
+this.crypt = 'ETHBTC'
+
+
+var changeTempo = function(value) {
+	this.tempo = value
+	getChart()
 }
 
-function getAllPrice() {
-	return new Promise((resolve, reject) => {
-		curl.get('https://www.binance.com/api/v1/ticker/allPrices', (err, res, body) => {
-		    if(err)
-		        resolve(err)
-
-		    var myObj = []
-
-	        JSON.parse(body).forEach(row => {
-	            myObj.push(row)
-	        })
-
-	        resolve(myObj)
-		})
-	})	
+var changeCrypto = function(value) {
+	this.crypt = value
+	getChart()
 }
 
-function getChart(symbol, interval) {
-	return new Promise((resolve, reject) => {
-		curl.get('https://www.binance.com/api/v1/klines?symbol='+symbol+'&interval='+interval, (err, res, body) => {
-		    if(err)
-		        console.log(err)
+var getChart = function() {
 
-		    var myObj = []
+		console.log('http://localhost:3000/getChart/'+this.crypt+'/'+this.tempo)
 
-		    body = JSON.parse(body)
+		$.ajax({
+			url : 'http://localhost:3000/getChart/'+this.crypt+'/'+this.tempo,
+			type : 'GET',
+			dataType : 'json',
+			success : function(res, statut){ 
+				var myData = res
+				var label = []
+				var value = []
 
-		    try {
-			    body.forEach(row => {
-			    	let obj = {}
+				$.each(myData, (index, row) => {
+					label.push(row.openTime)
+					value.push(row.closeValue)
+				})
 
-			    	obj.openTime  			= moment(row[0]).format("DD/MM/YYYY")
-			    	// obj.openValue 			= row[1]
-			    	// obj.high 				= row[2]
-			    	// obj.low 				= row[3]
-			    	obj.closeValue 			= row[4]
-			    	// obj.volume 				= row[5]
-			    	// obj.closeTime 			= row[6]
-			    	// obj.assetVolume 		= row[7]
-			    	// obj.nbTrades 			= row[8]
-			    	// obj.BaseAssetVolume 	= row[9]
-			    	// obj.QuoteAssetVolume 	= row[10]
-			    	// obj.ignore 				= row[11] // USELESS VALUE
 
-			    	myObj.push(obj)
-			    })
-			} catch (e) {
-				console.log(body)
-				console.log(e)
-				reject('error', e)
+				createGraph(label, value, 'line')
 			}
-
-		    resolve(myObj)
-
 		})
-	})
-}
+	}
 
+
+	// Fonction permettant de tracer des graphs
+	var createGraph = function(labels,data,type){
+
+		$("#graph-container").html("")
+		$("#graph-container").html('<canvas id="graph" style="display: block; height: 169px; width: 339px;" width="678" height="338" ></canvas>')
+		var ctx = document.getElementById("graph").getContext('2d')
+		var myChart = new Chart(ctx, {
+			    type: type,
+			    data: {
+			        labels: labels,
+			        datasets: [{
+			            label: '',
+			            data: data,
+			            backgroundColor: [
+			                'rgba(255, 99, 132, 0.2)',
+			                'rgba(54, 162, 235, 0.2)',
+			                'rgba(255, 206, 86, 0.2)',
+			                'rgba(75, 192, 192, 0.2)',
+			                'rgba(153, 102, 255, 0.2)',
+			                'rgba(255, 159, 64, 0.2)'
+			            ],
+			            borderColor: [
+			                'rgba(255,99,132,1)',
+			                'rgba(54, 162, 235, 1)',
+			                'rgba(255, 206, 86, 1)',
+			                'rgba(75, 192, 192, 1)',
+			                'rgba(153, 102, 255, 1)',
+			                'rgba(255, 159, 64, 1)'
+			            ],
+			            borderWidth: 1
+			        }]
+			    },
+			    options: {
+			        scales: {
+			            yAxes: [{
+			                ticks: {
+			                    beginAtZero:true
+			                }
+			            }]
+			        },
+	                legend: {
+	                    display: (type == 'doughnut' || type == 'pie')
+	                },
+			    }
+			})
+	}
