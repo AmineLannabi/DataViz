@@ -12,7 +12,7 @@ temporelle et enfin tous les types de graph qu'on peut afficher -->
 </head>
 <body>
 
-    <!-- Menu Deroulant pour le type de graphique -->
+    <!-- Menu Deroulant pour la cryto-->
     <div class="form-group">
         <select class="form-control" id="crypto" onchange="changeCrypto(this.value)">
         </select>
@@ -34,7 +34,12 @@ temporelle et enfin tous les types de graph qu'on peut afficher -->
 			<option value="3d">3 day</option>
 			<option value="1w">1 week</option>
 			<option value="1M">1 month</option>
-        </select>
+		</select>
+		<!--  Menu Deroulant pour le type de graphique 		-->
+        <select class="form-control" id="graphe" onchange="changeGraph(this.value)">
+			<option value="bar">Histogramme</option>
+			<option value="line">Ligne</option>
+		</select>
     </div>
 
  	<div id="graph-container">

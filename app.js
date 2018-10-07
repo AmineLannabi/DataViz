@@ -20,7 +20,7 @@ $(document).ready(function() {
 
 this.tempo = '1d'
 this.crypt = 'ETHBTC'
-
+this.graphe = 'line'
 
 var changeTempo = function(value) {
 	this.tempo = value
@@ -32,10 +32,15 @@ var changeCrypto = function(value) {
 	getChart()
 }
 
+var changeGraph = function(value) {
+	this.graphe = value
+	getChart()
+}
+
 var getChart = function() {
 
 		console.log('http://localhost:3000/getChart/'+this.crypt+'/'+this.tempo)
-
+        G=this.graphe
 		$.ajax({
 			url : 'http://localhost:3000/getChart/'+this.crypt+'/'+this.tempo,
 			type : 'GET',
@@ -50,13 +55,27 @@ var getChart = function() {
 					value.push(row.closeValue)
 				})
 
-
-				createGraph(label, value, 'line')
+				createGraph(label, value,G)
 			}
 		})
-	}
+    }
 
+    // fonction pour generer des couleurs aleatoirement
+    function randomColor() {
+        var r = Math.floor(Math.random() * 255);
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        return "rgba(" + r + "," + g + "," + b + ", 0.5)";
+    }
 
+    // Creation du tableau de couleur
+    function colorTab(a) {
+        var col = [];
+        for(i=0;i<a;i++){
+            col.push(randomColor());}
+        return col;
+    }
+    
 	// Fonction permettant de tracer des graphs
 	var createGraph = function(labels,data,type){
 
@@ -70,26 +89,17 @@ var getChart = function() {
 			        datasets: [{
 			            label: '',
 			            data: data,
-			            backgroundColor: [
-			                'rgba(255, 99, 132, 0.2)',
-			                'rgba(54, 162, 235, 0.2)',
-			                'rgba(255, 206, 86, 0.2)',
-			                'rgba(75, 192, 192, 0.2)',
-			                'rgba(153, 102, 255, 0.2)',
-			                'rgba(255, 159, 64, 0.2)'
-			            ],
-			            borderColor: [
-			                'rgba(255,99,132,1)',
-			                'rgba(54, 162, 235, 1)',
-			                'rgba(255, 206, 86, 1)',
-			                'rgba(75, 192, 192, 1)',
-			                'rgba(153, 102, 255, 1)',
-			                'rgba(255, 159, 64, 1)'
-			            ],
+			            backgroundColor:colorTab(data.length),
+			            borderColor:colorTab(data.length),
 			            borderWidth: 1
 			        }]
 			    },
 			    options: {
+                    /*elements: {
+                        line: {
+                            tension: 0, // disables bezier curves => on desactive l'arrondis (napporte pas dinfos pertinantes) de la courbe car on regarde linformation qui nous interesse que les pics
+                        }
+                    },*/
 			        scales: {
 			            yAxes: [{
 			                ticks: {
@@ -98,8 +108,8 @@ var getChart = function() {
 			            }]
 			        },
 	                legend: {
-	                    display: (type == 'doughnut' || type == 'pie')
-	                },
+	                    display: (type == 'doughnut' || type == 'pie' || type == 'line')
+                    },
 			    }
 			})
 	}
