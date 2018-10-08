@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	$('#tempo').select2()
-
+	$('#graphe').select2()
 
 	$.ajax({
 		url : 'http://localhost:3000/getAllCrypto',
