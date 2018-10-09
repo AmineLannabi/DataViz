@@ -9,12 +9,13 @@ temporelle et enfin tous les types de graph qu'on peut afficher -->
 	<title>Document</title>
 	<!-- Permet l'affichage correct des selects -->
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+	<link href="style.css" rel="stylesheet" />
 </head>
 <body>
 
     <!-- Menu Deroulant pour la cryto-->
     <div class="form-group">
-        <select class="form-control" id="crypto" onchange="changeCrypto(this.value)">
+        <select class="js-example-placeholder-multiple js-states form-control"  multiple="multiple" id="crypto" onchange="changeCrypto(this.value)">
         </select>
 
         <!--  Menu Deroulant pour le type de graphique -->
