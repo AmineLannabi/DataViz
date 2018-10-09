@@ -75,10 +75,21 @@ var getChart = function() {
             col.push(randomColor());}
         return col;
     }
-    
+    function mean(d){
+        var tmp = 0;
+        var tab =[];
+        $.each(d, (index, row) => {
+            tmp += JSON.parse(row)
+        })
+        tmp /= d.length
+        $.each(d, (index, row) => {
+            tab.push(tmp)
+        })
+        return tab;
+    }
 	// Fonction permettant de tracer des graphs
 	var createGraph = function(labels,data,type){
-
+ 
 		$("#graph-container").html("")
 		$("#graph-container").html('<canvas id="graph" style="display: block; height: 169px; width: 339px;" width="678" height="338" ></canvas>')
 		var ctx = document.getElementById("graph").getContext('2d')
@@ -87,29 +98,53 @@ var getChart = function() {
 			    data: {
 			        labels: labels,
 			        datasets: [{
-			            label: '',
+			            label: this.crypt,
 			            data: data,
 			            backgroundColor:colorTab(data.length),
 			            borderColor:colorTab(data.length),
 			            borderWidth: 1
-			        }]
+                    },
+                    {
+                        label: 'Mean',
+                        data: mean(data),
+                        // Changes this dataset to become a line
+                        type: 'line',
+                        fill:false,
+                        borderColor:colorTab(data.length)
+                      }]
 			    },
 			    options: {
                     /*elements: {
+                        elements: { point: { radius: 0 } }
                         line: {
                             tension: 0, // disables bezier curves => on desactive l'arrondis (napporte pas dinfos pertinantes) de la courbe car on regarde linformation qui nous interesse que les pics
                         }
                     },*/
-			        scales: {
-			            yAxes: [{
-			                ticks: {
-			                    beginAtZero:true
-			                }
-			            }]
-			        },
-	                legend: {
-	                    display: (type == 'doughnut' || type == 'pie' || type == 'line')
+                    elements: { point: { radius: 0 } },
+                    responsive: true,
+                    title: {
+                        display: true,
+                        text: 'Crypto chart'
                     },
-			    }
+                    scales: {
+                        xAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Month'
+                            }
+                        }],
+                        yAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Value'
+                            }
+                        }]
+                    },
+                        /*legend: {
+                            display: (type == 'doughnut' || type == 'pie' || type == 'line')
+                        },*/
+                    }
 			})
 	}
