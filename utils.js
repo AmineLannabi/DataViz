@@ -1,4 +1,4 @@
-this.tempo = '1d'
+this.tempo = '1M'
 this.crypt = ['ETHBTC']
 this.graphe = 'line'
 this.chart = {};
