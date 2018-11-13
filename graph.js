@@ -57,9 +57,3 @@ var createGraph = function(labels,datasets,type){
         })
     this.chart = myChart
 }
-
-
-var changeGraph = function(value) {
-	this.graphe = value
-	getChart()
-}

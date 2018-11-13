@@ -52,8 +52,8 @@ function formatData() {
 					myObj = {
 			            label: r,
 			            data: value,
-			            backgroundColor:colorTab(value.length),
-			            borderColor:colorTab(value.length),
+			            backgroundColor:randomColor(),
+			            borderColor:randomColor(),
 			            borderWidth: 1
 					}
 					/*myObj1 = {
