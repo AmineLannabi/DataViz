@@ -81,8 +81,8 @@ function getChart(symbol, interval) {
 
 			    	obj.openTime  			= moment(row[0]).format("DD/MM/YYYY")
 			    	// obj.openValue 			= row[1]
-			    	// obj.high 				= row[2]
-			    	// obj.low 				= row[3]
+			    	obj.high 				= row[2]
+			    	obj.low 				= row[3]
 			    	obj.closeValue 			= row[4]
 			    	// obj.volume 				= row[5]
 			    	// obj.closeTime 			= row[6]

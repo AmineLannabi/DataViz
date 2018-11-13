@@ -49,6 +49,7 @@ function formatData() {
 
 		$.each(this.crypt, (i, r) => {
 			var myObj = {}
+			//var myObj1 = {}
 			console.log('http://localhost:3000/getChart/'+r+'/'+this.tempo)
 			$.ajax({
 				url : 'http://localhost:3000/getChart/'+r+'/'+this.tempo,
@@ -57,27 +58,36 @@ function formatData() {
 				success : function(res, statut){ 
 					var myData = res
 					var value = []
-
+					//var meanGauss=[]
 					$.each(myData, (index, row) => {
 						time.push(row.openTime)
 						value.push(row.closeValue)
-					})
+						//meanGauss.push((parseFloat(row.high)+parseFloat(row.low))/2)
 
+					})
 					myObj = {
 			            label: r,
 			            data: value,
 			            backgroundColor:colorTab(value.length),
 			            borderColor:colorTab(value.length),
 			            borderWidth: 1
+					}
+					/*myObj1 = {
+			            label: "moyenneGauss",
+			            data: meanGauss,
+			            backgroundColor:colorTab(value.length),
+			            borderColor:colorTab(value.length),
+			            borderWidth: 1
 				    }
-
+*/
 					datasets.push(myObj)
+					//datasets.push(myObj1)
 
-					if(datasets.length === cryptoSize) {
-						resolve([time, datasets])
+					if(datasets.length/*/2*/ === cryptoSize) {
+						resolve([time, datasets])						
 					} 
 				}
-						})
+			})
 		})
 	})
 }
@@ -86,6 +96,7 @@ function formatData() {
 var getChart = function() {		
 
 	formatData().then(rs => {
+		console.log(rs[1])
 		createGraph(rs[0], rs[1], this.graphe)
 	})
 }
@@ -106,18 +117,17 @@ function colorTab(a) {
     return col;
 }
 
-
 // Cette fonction est horrible -_-'
 function mean(d){
     var tmp = 0;
-    var tab =[];
+	var tab =[];
     $.each(d, (index, row) => {
-        tmp += JSON.parse(row)
-    })
-    tmp /= d.length
-    $.each(d, (index, row) => {
-        tab.push(tmp)
-    })
+		mG=parseFloat(d[index-1])+parseFloat(row)+parseFloat(d[index+1])
+		mG=mG/3
+		tab.push(mG)
+	})
+	tab[0]=parseFloat(d[0])
+	tab[tab.length-1]=parseFloat(d[d.length-1])
     return tab;
 }
 
@@ -126,7 +136,7 @@ var createGraph = function(labels,datasets,type){
 
 	$.each(datasets, (i, r) => {
 		datasets.push({
-            label: 'Mean ' + r.label,
+            label: 'Mean Presque Gaussienne ' + r.label,
             data: mean(r.data),
             // Changes this dataset to become a line
             type: 'line',
@@ -145,12 +155,12 @@ var createGraph = function(labels,datasets,type){
 		        datasets: datasets
 		    },
 		    options:  {
-		    /*elements: {
-                elements: { point: { radius: 0 } }
+		    elements: {
+                //elements: { point: { radius: 0 } }
                 line: {
                     tension: 0, // disables bezier curves => on desactive l'arrondis (napporte pas dinfos pertinantes) de la courbe car on regarde linformation qui nous interesse que les pics
                 }
-            },*/
+            },
 	            elements: { point: { radius: 0 } },
 	            responsive: true,
 	            title: {
