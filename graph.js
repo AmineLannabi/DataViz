@@ -1,14 +1,15 @@
 var getChart = function() {		
-
 	formatData().then(rs => {
-		createGraph(rs[0], rs[1], this.graphe)
+        if(Object.keys(this.chart).length  !== 0)
+            addData(this.chart, rs[0], rs[1])
+        else
+		    createGraph(rs[0], rs[1], this.graphe)
 	})
 }
 
 
 // Fonction permettant de tracer des graphs
 var createGraph = function(labels,datasets,type){
-
 	$.each(datasets, (i, r) => {
 		datasets.push({
             label: 'Mean ' + r.label,
@@ -62,7 +63,8 @@ var createGraph = function(labels,datasets,type){
 	                    display: (type == 'doughnut' || type == 'pie' || type == 'line')
 	                },*/
             }
-		})
+        })
+    this.chart = myChart
 }
 
 

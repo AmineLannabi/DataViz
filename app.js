@@ -17,7 +17,6 @@ $(document).ready(function() {
 			$.each(res, (index, row) => {
 				$('#crypto').append('<option value="'+row+'">'+row+'</option>')
 			})
-
 			getChart()
 		}
 	})
@@ -29,7 +28,6 @@ function formatData() {
 
 	return new Promise((resolve, reject) => {
 		var datasets = []
-		var time = []
 
 		$.each(this.crypt, (i, r) => {
 			var myObj = {}
@@ -41,6 +39,7 @@ function formatData() {
 				success : function(res, statut){ 
 					var myData = res
 					var value = []
+					var time = []
 
 					$.each(myData, (index, row) => {
 						time.push(row.openTime)
@@ -53,7 +52,7 @@ function formatData() {
 			            backgroundColor:colorTab(value.length),
 			            borderColor:colorTab(value.length),
 			            borderWidth: 1
-				    }
+					}				
 
 					datasets.push(myObj)
 
@@ -61,7 +60,7 @@ function formatData() {
 						resolve([time, datasets])
 					} 
 				}
-						})
+			})
 		})
 	})
 }

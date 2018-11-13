@@ -1,6 +1,7 @@
 this.tempo = '1d'
 this.crypt = ['ETHBTC']
 this.graphe = 'line'
+this.chart = {};
 
 
 // fonction pour generer des couleurs aleatoirement
@@ -42,4 +43,27 @@ var changeTempo = function(value) {
 var changeCrypto = function(value) {
 	this.crypt = $('#crypto').val()
 	getChart()
+}
+
+// function who add data to chart and update it
+function addData(chart, label, data) {
+    var myObj = {}
+    var value = data[data.length-1].data
+
+    myObj = {
+        label: data[data.length-1].label,
+        data: value,
+        backgroundColor:colorTab(value.length),
+        borderColor:colorTab(value.length),
+        borderWidth: 1
+    }				
+
+    // console.log(label)
+
+    chart.data.labels = label;
+    chart.data.datasets = data
+    // chart.data.datasets.forEach((dataset) => {
+    //     dataset.data.push(data[0].data);
+    // });
+    chart.update();
 }
