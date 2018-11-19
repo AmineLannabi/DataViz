@@ -36,6 +36,7 @@ var createGraph = function(labels,datasets,type, th){
 				tooltips: {
 					mode: 'index',
 					intersect: false,
+					backgroundColor: 'rgb(0, 130, 0)',
 				  },
 	            scales: {
 	                xAxes: [{
