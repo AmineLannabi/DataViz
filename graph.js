@@ -3,13 +3,12 @@ var getChart = function() {
         if(Object.keys(this.chart).length  !== 0)
             addData(this.chart, rs[0], rs[1])
         else
-		    createGraph(rs[0], rs[1], this.graphe)
+		    createGraph(rs[0], rs[1], this.graphe, this.crypt)
 	})
 }
-
-
+console.log(this.crypt)
 // Fonction permettant de tracer des graphs
-var createGraph = function(labels,datasets,type){
+var createGraph = function(labels,datasets,type, th){
 	datasets = computeMean(datasets)
 	
 	$("#graph-container").html("")
@@ -33,13 +32,17 @@ var createGraph = function(labels,datasets,type){
 	            title: {
 	                display: true,
 	                text: 'Crypto chart'
-	            },
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				  },
 	            scales: {
 	                xAxes: [{
 	                    display: true,
 	                    scaleLabel: {
 	                        display: true,
-	                        labelString: 'Month'
+	                        labelString: 'Month' // ---a modifier pour afficher l'echelle de temps adequateeee----
 	                    }
 	                }],
 	                yAxes: [{

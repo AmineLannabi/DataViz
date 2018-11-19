@@ -59,7 +59,7 @@ function getAllPrice() {
 	        JSON.parse(body).forEach(row => {
 	            myObj.push(row)
 	        })
-
+			console.log(myObj)
 	        resolve(myObj)
 		})
 	})	
@@ -84,7 +84,7 @@ function getChart(symbol, interval) {
 			    	obj.high 				= row[2]
 			    	obj.low 				= row[3]
 			    	obj.closeValue 			= row[4]
-			    	// obj.volume 				= row[5]
+			    	obj.volume 				= row[5]
 			    	// obj.closeTime 			= row[6]
 			    	// obj.assetVolume 		= row[7]
 			    	// obj.nbTrades 			= row[8]
