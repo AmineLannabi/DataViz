@@ -79,7 +79,7 @@ function getChart(symbol, interval) {
 			    body.forEach(row => {
 			    	let obj = {}
 
-			    	obj.openTime  			= moment(row[0]).format("DD/MM/YYYY")
+			    	obj.openTime  			= moment(row[0]).format("LTS L")
 			    	// obj.openValue 			= row[1]
 			    	obj.high 				= row[2]
 			    	obj.low 				= row[3]

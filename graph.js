@@ -60,9 +60,3 @@ var createGraph = function(labels,datasets,type, th){
         })
     this.chart = myChart
 }
-
-
-var changeGraph = function(value) {
-	this.graphe = value
-	getChart()
-}

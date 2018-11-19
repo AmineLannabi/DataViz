@@ -1,5 +1,5 @@
-this.tempo = '1d'
-this.crypt = ['ETHBTC']
+this.tempo = '1M'
+this.crypt = ['BTCUSDT']
 this.graphe = 'line'
 this.chart = {};
 
@@ -9,14 +9,14 @@ function randomColor() {
     var r = Math.floor(Math.random() * 255);
     var g = Math.floor(Math.random() * 255);
     var b = Math.floor(Math.random() * 255);
-    return "rgba(" + r + "," + g + "," + b + ", 0.5)";
+    return "rgba(" + r + "," + g + "," + b + ", 0.7)";
 }
 
 // Creation du tableau de couleur
 function colorTab(a) {
     var col = [];
-    for(i=0;i<a;i++){
-        col.push(randomColor());}
+    for(i=0;i<a;i++)
+        col.push(randomColor())
     return col;
 }
 
@@ -26,7 +26,7 @@ function mean(d){
 	var tab =[];
     $.each(d, (index, row) => {
 		mG=parseFloat(d[index-1])+parseFloat(row)+parseFloat(d[index+1])
-		mG=mG/3
+		mG/=3
 		tab.push(mG)
 	})
 	tab[0]=parseFloat(d[0])
@@ -64,8 +64,15 @@ function addData(chart, label, data) {
     data = computeMean(data)
     
     chart.data.labels = label;
-    chart.data.datasets = data
-
-    
+    chart.data.datasets = data   
     chart.update();
+}
+
+
+
+
+var changeGraph = function(value) {
+    this.graphe = value
+    this.chart = {}
+    getChart()
 }
