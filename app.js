@@ -52,9 +52,10 @@ function formatData() {
 					})
 					myObj = {
 			            label: r,
-			            data: value,
-			            backgroundColor:randomColor(),
-			            borderColor:randomColor(),
+						data: value,
+						fill:'-1',
+			            backgroundColor:colorTab(value.length),
+			            borderColor:colorTab(value.length),
 			            borderWidth: 1
 					}
 					/*myObj1 = {
@@ -63,8 +64,7 @@ function formatData() {
 			            backgroundColor:colorTab(value.length),
 			            borderColor:colorTab(value.length),
 			            borderWidth: 1
-				    }
-*/			
+				    }*/
 
 					datasets.push(myObj)
 					//datasets.push(myObj1)

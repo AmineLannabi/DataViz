@@ -51,7 +51,7 @@ function computeMean(data) {
             // Changes this dataset to become a line
             type: 'line',
             borderDash: [5, 5],
-            fill:false,
+            fill: '-1',
             borderColor:colorTab(r.data.length)
 		})
     })

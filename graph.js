@@ -15,8 +15,9 @@ var createGraph = function(labels,datasets,type, th){
 	var myChart = new Chart(ctx, {
 		    type: type,
 		    data: {
-		        labels: labels,
-		        datasets: datasets
+				labels: labels,
+				datasets: datasets
+				
 		    },
 		    options:  {
 		    /*elements: {
@@ -24,7 +25,8 @@ var createGraph = function(labels,datasets,type, th){
                 line: {
                     tension: 0, // disables bezier curves => on desactive l'arrondis (napporte pas dinfos pertinantes) de la courbe car on regarde linformation qui nous interesse que les pics
                 }
-            },*/
+			},*/
+			
 	            elements: { point: { radius: 0 } },
 	            responsive: true,
 	            title: {
