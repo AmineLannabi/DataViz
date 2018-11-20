@@ -70,7 +70,7 @@ function formatData() {
 					//datasets.push(myObj1)
 
 					if(datasets.length/*/2*/ === cryptoSize) {
-						resolve([time, datasets])						
+						resolve([time, datasets, volume])						
 					} 
 				}
 			})
