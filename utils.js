@@ -60,11 +60,11 @@ function computeMean(data) {
 }
 
 // function who add data to chart and update it
-function addData(chart, label, data) {
+function addData(chart, label, data,th) {
     data = computeMean(data)
-    
     chart.data.labels = label;
-    chart.data.datasets = data   
+    chart.data.datasets = data;
+    chart.options.scales.xAxes[0].scaleLabel.labelString = th
     chart.update();
 }
 
