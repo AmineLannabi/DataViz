@@ -3,11 +3,11 @@ var getChart = function() {
         if(Object.keys(this.chart).length  !== 0)
             addData(this.chart, rs[0], rs[1],this.tempo)
         else
-		    createGraph(rs[0], rs[1], this.graphe, this.tempo)
+		    createGraph(rs[0], rs[1], rs[2], this.graphe, this.tempo)
 	})
 }
 // Fonction permettant de tracer des graphs
-var createGraph = function(labels,datasets,type, th){
+var createGraph = function(labels, datasets, volume,type, th){
 	datasets = computeMean(datasets)
 	$("#graph-container").html("")
 	$("#graph-container").html('<canvas id="graph" style="display: block; height: 169px; width: 339px;" width="678" height="338" ></canvas>')
@@ -36,6 +36,11 @@ var createGraph = function(labels,datasets,type, th){
 					intersect: false,
 					backgroundColor: 'rgb(0, 130, 0)',
 					cornerRadius:20,
+					callbacks: {
+						afterBody: function(t, d) {
+						   return '    Volume : ' + volume[t[0].index] 
+						}
+					 }
 				  },
 	            scales: {
 	                xAxes: [{
