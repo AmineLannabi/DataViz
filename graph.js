@@ -1,11 +1,31 @@
 var getChart = function() {		
 	formatData().then(rs => {
-        if(Object.keys(this.chart).length  !== 0)
-            addData(this.chart, rs[0], rs[1],this.tempo)
-        else
-		    createGraph(rs[0], rs[1], rs[2], this.graphe, this.tempo)
+		if(this.graphe === 'pie')
+			formatDataPie(rs)
+		else {
+        	if(Object.keys(this.chart).length  !== 0)
+            	addData(this.chart, rs[0], rs[1],this.tempo)
+        	else
+				createGraph(rs[0], rs[1], rs[2], this.graphe, this.tempo)
+		}
 	})
 }
+
+var createPieGraph = function(datasets, labels, color) {
+	$("#graph-container").html("")
+	$("#graph-container").html('<canvas id="graph" style="display: block; height: 169px; width: 339px;" width="678" height="338" ></canvas>')
+	var ctx = document.getElementById("graph").getContext('2d')
+	var myChart = new Chart(ctx,{
+		type: 'pie',
+		data: {
+			datasets: datasets,
+			labels: labels
+			// backgroundColor: color
+		}
+		// options: options
+	});
+}
+
 // Fonction permettant de tracer des graphs
 var createGraph = function(labels, datasets, volume,type, th){
 	datasets = computeMean(datasets)
@@ -16,8 +36,7 @@ var createGraph = function(labels, datasets, volume,type, th){
 		    type: type,
 		    data: {
 				labels: labels,
-				datasets: datasets
-				
+				datasets: datasets	
 		    },
 		    options:  {
 		    /*elements: {

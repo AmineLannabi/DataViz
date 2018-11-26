@@ -29,10 +29,64 @@ app.get('/getAllCrypto', (req, res) => {
 	})
 })
 
+app.get('/getAllCrypto/:time', (req, res) => {
+	var allCryp = []
+	var time = req.params.time
+
+	getAllCryptoSorted(time).then(x => {
+		res.json(x.slice(0, 10))
+	}) 
+})
+
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
 })
 
+function getAllCryptoSorted(time) {
+	return new Promise((resolve, reject) => {
+		getAllCrypto().then(cryptos => {
+			getAllCryptoWithVol(cryptos, time).then(c => {
+				resolve(c.sort((a, b) => {
+					return a[1] >= b[1] ? false : true
+				}))
+			})
+		})
+	})
+}
+
+
+function getAllCryptoWithVol(cryptos, time) {
+	return new Promise((resolve, reject) => {
+		var itemsProcessed = 0;
+		var allCryp = []
+		cryptos.forEach(row => {
+			getChart(row, time).then(chart => {
+				itemsProcessed++
+				allCryp.push([row, parseInt(chart[0].volume)])
+				if(itemsProcessed === cryptos.length) resolve(allCryp)
+			})
+		})
+	})
+}
+
+function getAllCryptoWithVolumes() {
+	return new Promise((resolve, reject) => {
+		getAllPrice().then(crypto => {
+			var allCryp = []
+
+			crypto.forEach(row => {
+				allCryp.push([row.symbol, row.volume])
+			})
+
+
+			allCryp.sort((a, b) => {
+				a[1] >= b[1] ? 1 : -1
+			})
+
+			resolve(allCryp)
+		})
+	})
+}
 
 function getAllCrypto() {
 	return new Promise((resolve, reject) => {
@@ -59,7 +113,7 @@ function getAllPrice() {
 	        JSON.parse(body).forEach(row => {
 	            myObj.push(row)
 	        })
-			console.log(myObj)
+			// console.log(myObj)
 	        resolve(myObj)
 		})
 	})	
@@ -95,8 +149,8 @@ function getChart(symbol, interval) {
 			    	myObj.push(obj)
 			    })
 			} catch (e) {
-				console.log(body)
-				console.log(e)
+				// console.log(body)
+				// console.log(e)
 				reject('error', e)
 			}
 

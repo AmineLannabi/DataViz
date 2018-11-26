@@ -28,6 +28,7 @@ function formatData() {
 
 	return new Promise((resolve, reject) => {
 		var datasets = []
+		var allVolume = []
 
 		$.each(this.crypt, (i, r) => {
 			var myObj = {}
@@ -42,7 +43,7 @@ function formatData() {
 					var value = []
 					//var meanGauss=[]
 					var time = []
-					var volume =[]
+					var volume = []
 					$.each(myData, (index, row) => {
 						time.push(row.openTime)
 						value.push(row.closeValue)
@@ -56,7 +57,7 @@ function formatData() {
 						fill:'-1',
 			            backgroundColor:colorTab(value.length),
 			            borderColor:colorTab(value.length),
-			            borderWidth: 1
+						borderWidth: 1
 					}
 					/*myObj1 = {
 			            label: "moyenneGauss",
@@ -67,6 +68,7 @@ function formatData() {
 				    }*/
 
 					datasets.push(myObj)
+					allVolume.push(volume)
 					//datasets.push(myObj1)
 
 					if(datasets.length/*/2*/ === cryptoSize) {
@@ -78,6 +80,42 @@ function formatData() {
 	})
 }
 
+function formatDataPie(r) {
+	var datasets = []
+	var labels = []
+	var color = []
+	$.ajax({
+		url : 'http://localhost:3000/getAllCrypto/'+this.tempo,
+		type : 'GET',
+		dataType : 'json',
+		success : function(res, statut){ 
+			// console.log(res)
+			var d = []
+			$.each(res, (index, row) => {
+				// myObj = {
+					// label: row[0],
+					// data: row[1],
+					// fill:'-1',
+					// backgroundColor:colorTab(value.length),
+					// borderColor:colorTab(value.length),
+					// borderWidth: 1
+				// }
 
+				// console.log(row)
+				d.push(row[1])
+				labels.push(row[0])
+				color.push(colorTab(1)[0])
+				// console.log(datasets)
+			})
+
+			datasets.push({data:d, backgroundColor: color})
+
+			console.log(datasets)
+			console.log(labels)
+			console.log(color)
+			createPieGraph(datasets, labels, color)
+		}
+	})
+}
 
 
