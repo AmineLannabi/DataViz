@@ -8,6 +8,8 @@ const app = express()
 
 app.use(cors())
 
+var te = []
+
 
 app.get('/', function (req, res) {
   res.send('Hello World!')
@@ -33,9 +35,13 @@ app.get('/getAllCrypto/:time', (req, res) => {
 	var allCryp = []
 	var time = req.params.time
 
-	getAllCryptoSorted(time).then(x => {
-		res.json(x.slice(0, 10))
-	}) 
+	if(te.length === 0) {
+		getAllCryptoSorted(time).then(x => {
+			te = x.slice(0, 10)
+			res.json(te)
+		}) 
+	} else 
+		res.json(te)
 })
 
 app.listen(3000, function () {
@@ -59,6 +65,7 @@ function getAllCryptoWithVol(cryptos, time) {
 	return new Promise((resolve, reject) => {
 		var itemsProcessed = 0;
 		var allCryp = []
+		cryptos = cryptos.filter(x => x.includes("BTC"))
 		cryptos.forEach(row => {
 			getChart(row, time).then(chart => {
 				itemsProcessed++

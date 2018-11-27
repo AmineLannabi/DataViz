@@ -84,6 +84,7 @@ function formatDataPie(r) {
 	var datasets = []
 	var labels = []
 	var color = []
+	var total = 0
 	$.ajax({
 		url : 'http://localhost:3000/getAllCrypto/'+this.tempo,
 		type : 'GET',
@@ -102,17 +103,16 @@ function formatDataPie(r) {
 				// }
 
 				// console.log(row)
+				total += row[1]
 				d.push(row[1])
 				labels.push(row[0])
 				color.push(colorTab(1)[0])
 				// console.log(datasets)
 			})
 
-			datasets.push({data:d, backgroundColor: color})
+			d = d.map(x => {return parseFloat((x / total) * 100).toFixed(2)})
 
-			console.log(datasets)
-			console.log(labels)
-			console.log(color)
+			datasets.push({data:d, backgroundColor: color})
 			createPieGraph(datasets, labels, color)
 		}
 	})
