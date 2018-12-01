@@ -62,6 +62,19 @@ function computeMean(data) {
 // function who add data to chart and update it
 function addData(chart, label, data,th) {
     data = computeMean(data)
+
+    var title = ""
+
+    for (let index = 0; index < data.length/2; index++) {
+        const element = data[index];
+        
+        title += element.label + " : " + element.data[element.data.length-1] + " / "
+
+    }
+
+    title = title.slice(0, -2)
+
+    chart.options.title.text = title
     chart.data.labels = label;
     chart.data.datasets = data;
     chart.options.scales.xAxes[0].scaleLabel.labelString = th

@@ -142,23 +142,14 @@ function getChart(symbol, interval) {
 			    	let obj = {}
 
 			    	obj.openTime  			= moment(row[0]).format("DD/MM/YYYY")
-			    	// obj.openValue 			= row[1]
 			    	obj.high 				= row[2]
 			    	obj.low 				= row[3]
 			    	obj.closeValue 			= row[4]
 			    	obj.volume 				= row[5]
-			    	// obj.closeTime 			= row[6]
-			    	// obj.assetVolume 		= row[7]
-			    	// obj.nbTrades 			= row[8]
-			    	// obj.BaseAssetVolume 	= row[9]
-			    	// obj.QuoteAssetVolume 	= row[10]
-			    	// obj.ignore 				= row[11] // USELESS VALUE
 
 			    	myObj.push(obj)
 			    })
 			} catch (e) {
-				// console.log(body)
-				// console.log(e)
 				reject('error', e)
 			}
 
