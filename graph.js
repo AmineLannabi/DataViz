@@ -22,7 +22,7 @@ var createPieGraph = function(datasets, labels, color) {
 			labels: labels
 			// backgroundColor: color
 		}
-		// options: options
+		// options: {options}
 	});
 }
 
@@ -39,6 +39,14 @@ var createGraph = function(labels, datasets, volume,type, th){
 				datasets: datasets	
 		    },
 		    options:  {
+				pan: {
+					enabled: true,
+					mode: 'x',
+				},
+				zoom: {
+					enabled: true,                      
+					mode: 'x',
+				},
 		    /*elements: {
                 elements: { point: { radius: 0 } }
                 line: {
@@ -82,7 +90,19 @@ var createGraph = function(labels, datasets, volume,type, th){
 	                /*legend: {
 	                    display: (type == 'doughnut' || type == 'pie' || type == 'line')
 	                },*/
-            }
+			},
+			plugins: [{
+				beforeDraw: function(c) {
+				   var reset_zoom = document.getElementById("reset_zoom"); //reset button
+				   var ticks = c.scales['x-axis-0'].ticks.length; //x-axis ticks array
+				   var labels = c.data.labels.length; //labels array
+				   if (ticks < labels) reset_zoom.hidden = false;
+				   else reset_zoom.hidden = true;
+				}
+			 }]
         })
-    this.chart = myChart
+	this.chart = myChart;
+	$('#reset_zoom').click(function(){
+		myChart.resetZoom();
+	});
 }
