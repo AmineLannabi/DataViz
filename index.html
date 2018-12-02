@@ -12,9 +12,6 @@ temporelle et enfin tous les types de graph qu'on peut afficher -->
 	<link href="style.css" rel="stylesheet" />
 </head>
 <body>
-	<button id="reset_zoom">
-		Reset zoom
-	</button>
 	<!-- Menu Deroulant pour la cryto-->
     <div class="form-group">
         <select class="js-example-placeholder-multiple js-states form-control"  multiple="multiple" id="crypto" onchange="changeCrypto(this.value)">
@@ -44,7 +41,10 @@ temporelle et enfin tous les types de graph qu'on peut afficher -->
 			<option value="line" selected>Ligne</option>
 			<option value="pie">Pie</option>
 		</select>
-    </div>
+		<button id="reset_zoom">
+			Reset zoom
+		</button>
+	</div>
 
  	<div id="graph-container">
  		<canvas id="graph" width="400" height="400"></canvas>
