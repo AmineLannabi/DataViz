@@ -41,12 +41,23 @@ var createGraph = function(labels, datasets, volume,type, th){
 		    options:  {
 				pan: {
 					enabled: true,
-					mode: 'xy',
-				},
-				zoom: {
-					enabled: true,                      
-					mode: 'xy',
-				},
+					mode: "xy",
+					speed: 10,
+					threshold: 10,
+					limits: {
+						max: 10,
+						min: 0.5
+					  }
+				  },
+				  zoom: {
+					enabled: true,
+					//drag: true,
+					mode: "xy",
+					limits: {
+					  max: 10,
+					  min: 0.5
+					}
+				  },
 		    /*elements: {
                 elements: { point: { radius: 0 } }
                 line: {
