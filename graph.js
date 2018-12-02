@@ -32,6 +32,7 @@ var createGraph = function(labels, datasets, volume,type, th){
 	$("#graph-container").html("")
 	$("#graph-container").html('<canvas id="graph" style="display: block; height: 169px; width: 339px;" width="678" height="338" ></canvas>')
 	var ctx = document.getElementById("graph").getContext('2d')
+
 	var myChart = new Chart(ctx, {
 		    type: type,
 		    data: {
@@ -50,7 +51,7 @@ var createGraph = function(labels, datasets, volume,type, th){
 	            responsive: true,
 	            title: {
 	                display: true,
-	                text: 'Crypto chart'
+	                text: datasets[0].label + " : " + datasets[0].data[datasets[0].data.length-1]
 				},
 				tooltips: {
 					mode: 'index',
