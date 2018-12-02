@@ -12,14 +12,16 @@ temporelle et enfin tous les types de graph qu'on peut afficher -->
 	<link href="style.css" rel="stylesheet" />
 </head>
 <body>
-
+	<button id="reset_zoom">
+		Reset zoom
+	</button>
 	<!-- Menu Deroulant pour la cryto-->
     <div class="form-group">
         <select class="js-example-placeholder-multiple js-states form-control"  multiple="multiple" id="crypto" onchange="changeCrypto(this.value)">
         </select>
 
         <!--  Menu Deroulant pour le type de graphique -->
-        <select class="form-control" id="tempo" onchange="changeTempo(this.value)">
+        <select class="form-control" id="tempo" onchange="changeTempo(this.value)" style="width:90px;">
 			<option value="1m">1 min</option>
 			<option value="3m">3 min</option>
 			<option value="5m">5 min</option>
@@ -37,7 +39,7 @@ temporelle et enfin tous les types de graph qu'on peut afficher -->
 			<option value="1M" selected>1 month</option>
 		</select>
 		<!--  Menu Deroulant pour le type de graphique 		-->
-        <select class="form-control" id="graphe" onchange="changeGraph(this.value)">
+        <select class="form-control" id="graphe" onchange="changeGraph(this.value)" style="width:70px;">
 			<!--<option value="bar">Histogramme</option>-->
 			<option value="line" selected>Ligne</option>
 			<option value="pie">Pie</option>
@@ -52,6 +54,8 @@ temporelle et enfin tous les types de graph qu'on peut afficher -->
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+	<script src="https://npmcdn.com/Chart.Zoom.js@0.3.0/Chart.Zoom.min.js"></script>
+
 	<script type="text/javascript" src="utils.js"></script>
 	<script type="text/javascript" src="app.js"></script>
 	<script type="text/javascript" src="graph.js"></script>	
