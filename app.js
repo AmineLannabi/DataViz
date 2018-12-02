@@ -47,7 +47,7 @@ function formatData() {
 					$.each(myData, (index, row) => {
 						time.push(row.openTime)
 						value.push(row.closeValue)
-						volume.push(row.volume)
+						volume.push(parseFloat(row.volume).toFixed(2))
 						//meanGauss.push((parseFloat(row.high)+parseFloat(row.low))/2)
 
 					})

@@ -70,7 +70,7 @@ var createGraph = function(labels, datasets, volume,type, th){
 	            responsive: true,
 	            title: {
 	                display: true,
-	                text: datasets[0].label + " : " + datasets[0].data[datasets[0].data.length-1]
+	                text: datasets[0].label + " : " + parseFloat(datasets[0].data[datasets[0].data.length-1]).toFixed(2)
 				},
 				tooltips: {
 					mode: 'index',

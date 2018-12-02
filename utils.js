@@ -27,7 +27,7 @@ function mean(d){
     $.each(d, (index, row) => {
 		mG=parseFloat(d[index-1])+parseFloat(row)+parseFloat(d[index+1])
 		mG/=3
-		tab.push(mG)
+		tab.push(mG.toFixed(2))
 	})
 	tab[0]=parseFloat(d[0])
 	tab[tab.length-1]=parseFloat(d[d.length-1])
@@ -68,7 +68,7 @@ function addData(chart, label, data,th) {
     for (let index = 0; index < data.length/2; index++) {
         const element = data[index];
         
-        title += element.label + " : " + element.data[element.data.length-1] + " / "
+        title += element.label + " : " + parseFloat(element.data[element.data.length-1]).toFixed(6) + " / "
 
     }
 
